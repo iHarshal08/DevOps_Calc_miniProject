@@ -1,0 +1,17 @@
+# Use the latest Ubuntu image
+FROM ubuntu:latest
+
+# Install necessary dependencies (G++ for compiling C++)
+RUN apt-get update && apt-get install -y g++
+
+# Set working directory inside the container
+WORKDIR /app
+
+# Copy the calculator source code from your local machine into the container
+COPY ../src/calculator.cpp .
+
+# Compile the C++ code
+RUN g++ -o calculator calculator.cpp
+
+# Run the compiled calculator program when the container starts
+CMD ["./calculator"]
