@@ -1,28 +1,26 @@
 pipeline {
     agent any
-
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/iHarshal08/DevOps_Calc_miniProject.git' 
+                git 'https://github.com/iHarshal08/DevOps_Calc_miniProject.git'
             }
         }
-
-        stage('Build Docker Image') {
+        stage('Build') {
             steps {
-                sh 'docker build -t calculator-app -f docker/Dockerfile .'
+                sh 'g++ -o calculator src/calculator.cpp'
             }
         }
-
-        stage('Run Tests') {
+        stage('Test') {
             steps {
-                sh 'docker run --rm calculator-app'  // Run calculator inside Docker
+                sh './calculator'
             }
         }
-
-        stage('Deploy (Using Ansible)') {
+        stage('Docker Build & Push') {
             steps {
-                sh 'ansible-playbook ansible/deploy.yml'
+                sh 'docker build -t iharshal/calculator-app -f docker/Dockerfile .'
+                sh 'docker login -u iharshal -p Harshal@p0808'
+                sh 'docker push iharshal/calculator-app'
             }
         }
     }
