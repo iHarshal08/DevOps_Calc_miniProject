@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/iHarshal08/DevOps_Calc_miniProject.git'
+              git branch: 'main', credentialsId: 'github-credentials', url: 'https://github.com/iHarshal08/DevOps_Calc_miniProject.git'
             }
         }
         stage('Build') {
